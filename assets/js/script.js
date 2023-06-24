@@ -80,7 +80,7 @@ function answerCheck() {
     for (let j = 0; j < checkboxes.length; j++) {
         console.log(checkboxes[j].checked)
         if (checkboxes[j].checked) {
-            localStorage.setItem(qCount, checkboxes[j].id)
+            // localStorage.setItem(qCount, checkboxes[j].id)
             // console.log(localStorage.getItem(qCount, checkboxes[j].id))
             if (checkboxes[j].id === correctAns[qCount]) {
                 correctCount++
