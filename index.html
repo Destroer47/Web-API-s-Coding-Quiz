@@ -9,13 +9,28 @@
   </head>
 
   <body>
-    <header>
-        <h1>Coding Quiz</h1>
-        <p>Test your coding knowledge by taking this short quiz covering JavaScript elements,
-        and then save your high score at the end to the leaderboard.
-        </p>
-        <button>Start</button>
+    <header id="startMenu">
+        <h1>Javascript Quiz</h1>
+        <div id="hideStart">
+            <p>Test your coding knowledge by taking this short quiz covering JavaScript elements,
+            and then save your high score at the end to the leaderboard.
+            </p>
+            <button id="start">Start</button>
+        </div>
     </header>
+
+    <main id="qBox">
+        <h3 id="timer"></h3>
+        <h1 id="qNumber"></h1>
+        <h3 id="questionBox"></h3>
+        <div id="answers">
+        </div>
+        <button id="next">Next</button>
+    </main>
+
+    <section id="endCard">
+        <h3>Congrats on making it to the end of the quiz</h3>
+    </section>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
