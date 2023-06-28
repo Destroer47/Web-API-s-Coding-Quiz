@@ -19,7 +19,9 @@ let endCard = document.querySelector("#endCard");
 let questionBox = document.querySelector("#questionBox");
 let answersBox = document.querySelectorAll("label");
 let answersDiv = document.getElementById("answers");
-let endScore = document.querySelector("#score")
+let endScore = document.querySelector("#score");
+let retryQuiz = document.querySelector("#retry");
+let submitScore = document.querySelector("#submit");
 
 //https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS
 let questions = {
@@ -104,7 +106,7 @@ let answersIndex = {
     23: ["a", "b", "c", "d"],
     24: ["a", "b", "c"],
     25: ["a", "b"]
-}
+};
 
 let correctAns = {
     1: "d",
@@ -147,7 +149,7 @@ function generateQuestions() {
     for (let i = 0; i < qLength; i++) {
         let ans = answers[qCount][i];
         let ansIndex = answersIndex[qCount][i];
-        let checkbox = document.createElement("input")
+        let checkbox = document.createElement("input");
         checkbox.type = "radio";
         checkbox.name = "answerChoice";
         checkbox.classList.add("answerChoice");
@@ -177,11 +179,11 @@ function answerCheck() {
         if (checkboxes[j].checked) {
             if (checkboxes[j].id === correctAns[qCount]) {
                 correctCount++
-                alert("Correct!");
+                // alert("Correct!");
             }
             else {
                 timeLoss();
-                alert("Wrong!")
+                // alert("Wrong!");
             }
             cancel = 0;
             return
@@ -192,9 +194,9 @@ function answerCheck() {
 };
 
 function initialCheck() {
-    let initialInput = document.querySelector("initials")
+    let initialInput = document.querySelector("initials");
     if (!initialInput) {
-        alert("Please input initials into Textbox to submit score!")
+        alert("Please input initials into textbox to submit score!");
         return
     }
     else {
@@ -219,6 +221,21 @@ nextQuestion.addEventListener("click", function() {
         answersDiv.innerHTML = "";
         generateQuestions();
     }
+});
+
+retryQuiz.addEventListener("click", function() {
+    qCount = 1;
+    correctCount = 0;
+    minutes = 5;
+    seconds = "0" + 0;
+    answersDiv.innerHTML = "";
+    displayTimer.textContent = minutes + ":" + seconds;
+    hideStart.setAttribute("style", "display:none");
+    endCard.setAttribute("style", "display:none");
+    qBox.setAttribute("style", "display:inline");
+    generateQuestions();
+    clearInterval(setTimer);
+    startTimer();
 });
 
     let minutes = 5;
@@ -250,14 +267,20 @@ function startTimer() {
 
 function timeLoss() {
     seconds = seconds - 4;
-    displayTimer.textContent = minutes + ":" + seconds
     if (seconds <= 0 && minutes <= 0) {
         displayTimer.textContent = "Time's Up!";
         clearInterval(setTimer);
     }
+    else if (seconds < 10 && seconds > 0) {
+        seconds = "0" + seconds;
+        displayTimer.textContent = minutes + ":" + seconds;
+    }
     else if (seconds < 0) {
         minutes--;
         seconds = 60 + seconds;
+        displayTimer.textContent = minutes + ":" + seconds;
+    }
+    else {
         displayTimer.textContent = minutes + ":" + seconds;
     }
 };
@@ -269,10 +292,14 @@ function scoreSubmit() {
     endCard.setAttribute("style", "display:inline");
     endScore.textContent = "You got " + correctCount + " out of 25 questions correct."
 }
+
+submitScore.addEventListener("click", function() {
+    initialCheck();
+});
+
 //scores, and retry
 function scoreRender() {
 
 }
-
 
 //thought experiment for later, practice injecting the questions as innerHTML and being able to add any html tags you want to the question elements
