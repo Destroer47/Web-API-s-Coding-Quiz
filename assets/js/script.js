@@ -11,8 +11,10 @@
 // need leaderboard for name and score, and clear all scores button
 // make end message dynamic so that when timer ends message is different than when you get to the end of the quiz through answering all the questions
 let startQuiz = document.querySelector("#start");
+let startText= document.querySelector("#startText");
 let nextQuestion = document.querySelector("#next");
 let hideStart = document.querySelector("#hideStart");
+let hideSubmit = document.querySelector("#hideSubmit");
 let qBox = document.querySelector("#qBox");
 let displayTimer = document.querySelector("#timer");
 let endCard = document.querySelector("#endCard");
@@ -22,6 +24,10 @@ let answersDiv = document.getElementById("answers");
 let endScore = document.querySelector("#score");
 let retryQuiz = document.querySelector("#retry");
 let submitScore = document.querySelector("#submit");
+let highScores = document.querySelector("#highScores");
+let highScoreDiv = document.querySelector("#scoreList");
+let highScoreMenu = document.querySelector("#highScoreMenu");
+let initialInput
 
 //https://www.w3schools.com/quiztest/quiztest.asp?qtest=JS
 let questions = {
@@ -136,8 +142,11 @@ let correctAns = {
     25: 'a'
 };
 
-let qCount = 1;
+
+let qCount = 23;
 let correctCount = 0;
+let scoreStorage = [];
+// let x = Object.create(scoreObject);
 
 function generateQuestions() {
 
@@ -164,6 +173,7 @@ function generateQuestions() {
 
 
 startQuiz.addEventListener("click", function(){
+    highScoreDiv.innerHTML = "";
     displayTimer.textContent = minutes + ":" + seconds;
     hideStart.setAttribute("style", "display:none");
     qBox.setAttribute("style", "display:inline");
@@ -193,16 +203,43 @@ function answerCheck() {
     cancel = 1;
 };
 
+cancel2 = 0
 function initialCheck() {
-    let initialInput = document.querySelector("initials");
+    initialInput = document.getElementById("initials").value;
+    console.log(initialInput);
     if (!initialInput) {
+        cancel2 = 1;
         alert("Please input initials into textbox to submit score!");
         return
     }
     else {
-        localStorage.setItem()
+        let scoreArray = [initialInput, correctCount];
+        scoreStorage.push(scoreArray);
+        console.log[scoreStorage];
+        localStorage.setItem("score", JSON.stringify(scoreStorage));
+        console.log(localStorage.getItem("score"));
+        cancel2 = 0;
     }
 }
+
+function renderScores() {
+    highScoreDiv.innerHTML = "";
+    let storedScores = JSON.parse(localStorage.getItem("score"))
+    for (let q = 0; q < storedScores.length; q++) {
+        let scoreList = document.createElement("li");
+        tempName = storedScores[q][0];
+        tempScore = storedScores[q][1];
+        console.log(storedScores);
+        console.log(tempName);
+        console.log(tempScore);
+        scoreList.textContent = tempName + " " + tempScore
+        highScoreDiv.appendChild(scoreList);
+    }
+};
+
+function clearScores() {
+
+};
 //local store idea, store object, object is placeholder name, and store initials and score in array inside placeholder object
 nextQuestion.addEventListener("click", function() {
     answerCheck(cancel);
@@ -229,6 +266,9 @@ retryQuiz.addEventListener("click", function() {
     minutes = 5;
     seconds = "0" + 0;
     answersDiv.innerHTML = "";
+    highScoreDiv.innerHTML = "";
+    highScoreMenu.disabled = false;
+    highScoreMenu.setAttribute("style", "opacity:1; cursor:allowed");
     displayTimer.textContent = minutes + ":" + seconds;
     hideStart.setAttribute("style", "display:none");
     endCard.setAttribute("style", "display:none");
@@ -290,16 +330,42 @@ function timeLoss() {
 function scoreSubmit() {
     qBox.setAttribute("style", "display:none");
     endCard.setAttribute("style", "display:inline");
+    hideSubmit.setAttribute("style", "display:inline");
+    initialInput = document.getElementById("initials");
+    initialInput.value = "";
+    console.log(endCard);
     endScore.textContent = "You got " + correctCount + " out of 25 questions correct."
 }
 
 submitScore.addEventListener("click", function() {
-    initialCheck();
+    initialCheck(cancel2);
+    if (cancel2 === 1) {
+        return
+    }
+
+    else {
+        hideSubmit.setAttribute("style", "display:none");
+        highScores.setAttribute("style", "display:inline");
+        highScoreMenu.disabled = true;
+        highScoreMenu.setAttribute("style", "opacity:0.6; cursor:not-allowed");
+        renderScores();
+    }
 });
 
+highScoreMenu.addEventListener("click", function() {
+    qCount = 1;
+    correctCount = 0;
+    clearInterval(setTimer);
+    minutes = 5;
+    seconds = "0" + 0;
+    answersDiv.innerHTML = "";
+    hideStart.setAttribute("style", "display:inline");
+    startText.setAttribute("style", "display:none");
+    qBox.setAttribute("style", "display:none");
+    // startQuiz.setAttribute("style", "display:inline");
+    console.log(startQuiz);
+    highScores.setAttribute("style", "display:inline");
+    renderScores();
+});
 //scores, and retry
-function scoreRender() {
-
-}
-
 //thought experiment for later, practice injecting the questions as innerHTML and being able to add any html tags you want to the question elements

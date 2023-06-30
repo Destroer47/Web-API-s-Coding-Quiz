@@ -10,9 +10,10 @@
 
   <body>
     <header id="startMenu">
-        <h1>Javascript Quiz</h1>
+        <h1 id="title">Javascript Quiz</h1>
+        <button id="highScoreMenu">High Scores</button>
         <div id="hideStart">
-            <p>Test your coding knowledge by taking this short quiz covering JavaScript elements,
+            <p id="startText">Test your coding knowledge by taking this short quiz covering JavaScript elements,
             and then save your high score at the end to the leaderboard.
             </p>
             <button id="start">Start</button>
@@ -25,17 +26,25 @@
         <h3 id="questionBox"></h3>
         <div id="answers">
         </div>
-        <button id="next">Next</button>
+        <button class="clickButton" id="next">Next</button>
     </main>
 
+    <section id="highScores">
+      <ul id="scoreList"></ul>
+    </section>
+
     <section id="endCard">
-        <h3>Congrats on making it to the end of the quiz</h3>
-        <label for="initials">Submit initials below.</label> <br>
+      <div id="hideSubmit">
+        <h3 id="endMessage">Congrats on making it to the end of the quiz</h3>
+        <label id ="iLabel" for="initials">Submit initials below.</label> <br>
         <input type="text" placeholder="Initials" name="Initials" id="initials" />
         <p id="score"></p>
-        <button id="submit">Submit</button>
-        <button id="retry">Retry Quiz</button>
+        <button class="clickButton" id="submit">Submit</button>
+      </div>
+      <button class="clickButton" id="retry">Retry Quiz</button>
     </section>
+
+    
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
