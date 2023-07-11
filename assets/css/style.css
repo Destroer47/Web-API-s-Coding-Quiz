@@ -91,3 +91,7 @@ label {
 #highScores {
     display: none;
 }
+
+#scoreList {
+    margin-left: 30px;
+}

@@ -1,15 +1,3 @@
-// need object of all questions
-// need array of all answers inside each question
-// need index/counter to keep track which question on
-//note to self, you can use for loop to iterate over object and display only whats stored inside the object
-// need event listener to get answer from click 
-// need to check if answer clicked on was correct
-// need to keep track of score
-
-// need input for name
-// need local storage for name and score
-// need leaderboard for name and score, and clear all scores button
-// make end message dynamic so that when timer ends message is different than when you get to the end of the quiz through answering all the questions
 let startQuiz = document.querySelector("#start");
 let startText= document.querySelector("#startText");
 let nextQuestion = document.querySelector("#next");
@@ -143,10 +131,9 @@ let correctAns = {
 };
 
 
-let qCount = 23;
+let qCount = 1;
 let correctCount = 0;
 let scoreStorage = [];
-// let x = Object.create(scoreObject);
 
 function generateQuestions() {
 
@@ -189,11 +176,9 @@ function answerCheck() {
         if (checkboxes[j].checked) {
             if (checkboxes[j].id === correctAns[qCount]) {
                 correctCount++
-                // alert("Correct!");
             }
             else {
                 timeLoss();
-                // alert("Wrong!");
             }
             cancel = 0;
             return
@@ -227,12 +212,13 @@ function renderScores() {
     let storedScores = JSON.parse(localStorage.getItem("score"))
     for (let q = 0; q < storedScores.length; q++) {
         let scoreList = document.createElement("li");
+        scoreList.setAttribute("style", "margin-top: 10px");
         tempName = storedScores[q][0];
         tempScore = storedScores[q][1];
         console.log(storedScores);
         console.log(tempName);
         console.log(tempScore);
-        scoreList.textContent = tempName + " " + tempScore
+        scoreList.textContent = tempName + ": " + tempScore + "/25";
         highScoreDiv.appendChild(scoreList);
     }
 };
@@ -240,7 +226,7 @@ function renderScores() {
 function clearScores() {
 
 };
-//local store idea, store object, object is placeholder name, and store initials and score in array inside placeholder object
+
 nextQuestion.addEventListener("click", function() {
     answerCheck(cancel);
     console.log(correctCount);
@@ -325,8 +311,6 @@ function timeLoss() {
     }
 };
 
-//homepage has start and high score button
-//page has score displayed, score submit, and retry button
 function scoreSubmit() {
     qBox.setAttribute("style", "display:none");
     endCard.setAttribute("style", "display:inline");
@@ -367,5 +351,3 @@ highScoreMenu.addEventListener("click", function() {
     highScores.setAttribute("style", "display:inline");
     renderScores();
 });
-//scores, and retry
-//thought experiment for later, practice injecting the questions as innerHTML and being able to add any html tags you want to the question elements
